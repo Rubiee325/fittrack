@@ -1,0 +1,132 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up - FitTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url("{% static 'signup.jfif' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: #111;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .navbar h2 {
+            font-weight: 600;
+            color: #111;
+        }
+
+        .navbar a {
+            color: #111;
+            margin-left: 20px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .signup-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding-top: 60px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.8);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .form-footer a {
+            color: #000;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <h2>FitTrack</h2>
+        <div>
+            <a href="{% url 'login' %}">Login</a>
+        </div>
+    </div>
+
+    <div class="signup-section" data-aos="fade-up">
+        <form method="post">
+            {% csrf_token %}
+            <h2>Create Account</h2>
+            {{ form.as_p }}
+            <button type="submit">Sign Up</button>
+            <div class="form-footer">
+                <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>AOS.init();</script>
+</body>
+</html>

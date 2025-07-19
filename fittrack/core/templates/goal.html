@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-section" data-aos="fade-up">
+    <h2>Daily Goals</h2>
+    <form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Add Goal</button></form>
+</div>
+{% endblock %}

@@ -1,0 +1,150 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - FitTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url("{% static 'dashboard.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 30px 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 22px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar a {
+            display: block;
+            margin: 15px 0;
+            color: #f5f5f5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar a:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 60px 40px;
+            color: #222;
+        }
+
+        .main-content h2 {
+            font-size: 26px;
+            margin-bottom: 15px;
+        }
+
+        .profile-form {
+            background-color: rgba(255, 255, 255, 0.9);
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        label {
+            font-weight: 600;
+            display: block;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #111;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+   
+
+
+    
+<div class="container">
+    <div class="sidebar" data-aos="fade-right">
+        <h2>FitTrack</h2>
+        <div style="margin-bottom: 30px;">
+            <p style="font-size: 16px; color: #ddd;">👋 Hello, <strong>{{ request.user.username }}</strong></p>
+        </div>        
+        <a href="#">Dashboard</a>
+        <a href="{% url 'water' %}">Water Intake</a>
+        <a href="{%url 'workout' %}">Workout</a>
+        <a href="{%url 'meal_planner' %}">Meal Planner</a>
+        <a href="#">Recipes</a>
+        <a href="#">Diet Plan</a>
+        <a href="{%url 'bmi' %}">BMI Calculator</a>
+
+        <a href="{% url 'logout' %}" style="color: #ff4d4d; font-weight: bold;">Logout</a>
+
+    </div>
+
+    <div class="main-content" data-aos="fade-up">
+        <h2>Welcome to FitTrack</h2>
+        <p>Please complete your profile to start tracking your fitness journey.</p>
+
+        {% if show_form %}
+    <form class="profile-form" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save Profile</button>
+    </form>
+{% else %}
+    <div class="profile-form" style="margin-top: 30px;">
+        <h3>Your Profile Details</h3>
+        <p><strong>Age:</strong> {{ profile.age }} years</p>
+        <p><strong>Height:</strong> {{ profile.height }} cm</p>
+        <p><strong>Weight:</strong> {{ profile.weight }} kg</p>
+        <a href="?edit=true">
+            <button style="margin-top: 15px; background-color: #222;">Edit Profile</button>
+        </a>
+    </div>
+{% endif %}
+
+    
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>AOS.init();</script>
+</body>
+</html>

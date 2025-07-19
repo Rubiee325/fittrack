@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="form-section" data-aos="fade-up">
+    <h2>Send Feedback</h2>
+    <form method="post">
+        {% csrf_token %}
+        <textarea name="message" rows="5" placeholder="Your feedback..."></textarea><br>
+        <button type="submit">Send</button>
+    </form>
+</div>
+{% endblock %}

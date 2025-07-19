@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Water Intake Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: url("{% static 'water1.gif' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            margin: auto;
+            padding: 40px;
+            width: 400px;
+            border-radius: 20px;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        input, button {
+            padding: 10px;
+            width: 90%;
+            margin-top: 15px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #4caf50;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #388e3c;
+        }
+
+        .goal-info {
+            margin-top: 20px;
+        }
+    
+  .toast {
+    visibility: hidden;
+    min-width: 300px;
+    background-color: #4fc3f7;
+    color: white;
+    text-align: center;
+    border-radius: 12px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    right: 20px;
+    bottom: 30px;
+    font-size: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .progress-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .progress-bar-bg {
+    width: 300px;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    width: 0%;
+    transition: width 1s ease-in-out;
+  }
+
+  .progress-label {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #0072ff;
+  }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        {% if goal %}
+            <h2>Today's Water Intake</h2>
+            <p>Daily Goal: {{ goal.daily_goal }} ml</p>
+            <p>Consumed Today: {{ total_intake }} ml</p>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Add Today's Intake</button>
+            </form>
+        {% else %}
+            <h2>Set Your Daily Water Goal</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ goal_form.as_p }}
+                <button type="submit">Save Goal</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="progress-container">
+        <div class="progress-bar-bg">
+          <div id="progressBar" class="progress-bar-fill"></div>
+        </div>
+      </div>
+      <div class="progress-label">{{ progress|default:"0" }}% of daily goal</div>
+
+    <!-- Toast Notification -->
+    <div id="toast">💧 Time to log your water intake!</div>
+
+<style>
+  #toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: #010f16;
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    padding: 16px;
+    position: fixed;
+    z-index: 999;
+    bottom: 30px;
+    right: 30px;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-in-out;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  #toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <p class="progress-text">💧 Water Intake: {{ progress }}%</p>
+
+  
+<div id="toast">💧 Time to log your water intake!</div>
+
+<script>
+  function showToast() {
+    const toast = document.getElementById("toast");
+    toast.classList.add("show");
+
+    // Hide after 5 seconds
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 5000);
+  }
+
+  // Show every 5 hours
+  setInterval(() => {
+    showToast();
+  }, 2000); // 5 hours = 18,000,000 ms
+
+  // Show once on page load for testing
+  window.onload = function() {
+    showToast(); // You can remove this line after testing
+  };
+
+  window.onload = function () {
+    const progress = {{ progress|default:0|safe }};
+    const bar = document.getElementById("progressBar");
+    bar.style.width = progress + "%";
+  };
+</script>
+
+</body>
+</html>

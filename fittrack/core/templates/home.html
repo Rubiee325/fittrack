@@ -1,0 +1,135 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to FitTrack</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .home-container {
+            background: url("{% static 'fitness.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.55);
+            z-index: 1;
+        }
+
+        .home-content {
+            position: relative;
+            z-index: 2;
+            max-width: 750px;
+            padding: 20px;
+        }
+
+        .home-content h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .home-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .home-buttons a {
+            text-decoration: none;
+            background-color: #10b981;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            margin: 0 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        .home-buttons a:hover {
+            background-color: #059669;
+        }
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 3;
+            background: transparent;
+        }
+
+        .navbar h2 {
+            color: white;
+            font-weight: 600;
+        }
+
+        .navbar a {
+            color: white;
+            margin-left: 20px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-container">
+        <div class="overlay"></div>
+
+        <div class="navbar">
+            <h2>FitTrack</h2>
+            <div>
+                <a href="{% url 'signup' %}">Sign Up</a>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
+        </div>
+
+        <div class="home-content" data-aos="fade-up">
+            <h1>Track. Train. Transform.</h1>
+            <p>Welcome to FitTrack — your all-in-one fitness tracker. Log workouts, plan meals, track your water and sleep, and achieve your health goals with personalized guidance.</p>
+            <div class="home-buttons">
+                <a href="{% url 'signup' %}">Get Started</a>
+                <a href="{% url 'login' %}">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>

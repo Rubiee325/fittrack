@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal Planner</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url("{% static 'meal.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.75);
+            padding: 20px;
+            margin: 30px auto;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 20px;
+        }
+        form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 20px;
+            align-items: center;
+        }
+        form label {
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        form div {
+            display: flex;
+            flex-direction: column;
+        }
+        form button {
+            grid-column: span 2;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #66bb6a;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        input, select {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 6px;
+            border: none;
+        }
+        .meal-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+        img {
+            max-width: 80px;
+            border-radius: 10px;
+        }
+        .meal-card button {
+            background-color: #ef5350;
+            color: #fff;
+            padding: 6px;
+            border: none;
+            border-radius: 6px;
+            margin-top: 8px;
+            cursor: pointer;
+        }
+        a {
+            color: #90caf9;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>🍽️ Today's Meal Planner</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <label for="{{ form.name.id_for_label }}">Meal Name</label>
+            {{ form.name }}
+        </div>
+        <div>
+            <label for="{{ form.category.id_for_label }}">Category</label>
+            {{ form.category }}
+        </div>
+        <div>
+            <label for="{{ form.calories.id_for_label }}">Calories</label>
+            {{ form.calories }}
+        </div>
+        <div>
+            <label for="{{ form.carbs.id_for_label }}">Carbs (g)</label>
+            {{ form.carbs }}
+        </div>
+        <div>
+            <label for="{{ form.protein.id_for_label }}">Protein (g)</label>
+            {{ form.protein }}
+        </div>
+        <div>
+            <label for="{{ form.fats.id_for_label }}">Fats (g)</label>
+            {{ form.fats }}
+        </div>
+        <div>
+            <label for="{{ form.image.id_for_label }}">Image</label>
+            {{ form.image }}
+        </div>
+        <button type="submit">Add Meal</button>
+    </form>
+
+    <h3>Meals for Today ({{ meals.count }})</h3>
+    {% for meal in meals %}
+        <div class="meal-card">
+            <strong>{{ meal.name }}</strong> - {{ meal.category }}<br>
+            {{ meal.calories }} kcal | Carbs: {{ meal.carbs }}g | Protein: {{ meal.protein }}g | Fats: {{ meal.fats }}g<br>
+            {% if meal.image %}
+                <img src="{{ meal.image.url }}" alt="{{ meal.name }}">
+            {% endif %}
+            <form method="post" action="{% url 'delete_meal' meal.pk %}">
+                {% csrf_token %}
+                <button type="submit">🗑️ Delete</button>
+            </form>
+        </div>
+    {% endfor %}
+
+    <canvas id="nutritionChart" width="400" height="200" style="margin-top:30px;"></canvas>
+    <script>
+        const ctx = document.getElementById('nutritionChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Carbs', 'Protein', 'Fats'],
+                datasets: [{
+                    label: 'Nutrition Breakdown',
+                    data: [{{ total_carbs }}, {{ total_protein }}, {{ total_fats }}],
+                    backgroundColor: ['#42a5f5', '#66bb6a', '#ff7043'],
+                    borderWidth: 1
+                }]
+            },
+        });
+    </script>
+
+    <h4>Total Calories Today: <span style="color:#FFD700">{{ total_calories }} kcal</span></h4>
+    <a href="{% url 'meal_history' %}">View Meal History 📜</a>
+</div>
+</body>
+</html>

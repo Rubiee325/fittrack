@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meal History</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url("{% static 'meal.jpg' %}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            padding: 30px;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.75);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 900px;
+            margin: auto;
+        }
+        .date-group {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .meal-card {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        h2, h3 {
+            color: #ffeb3b;
+        }
+        img {
+            width: 80px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📅 Meal History</h2>
+        {% for date, meals in grouped_meals %}
+            <div class="date-group">
+                <h3>{{ date }}</h3>
+                {% for meal in meals %}
+                    <div class="meal-card">
+                        <strong>{{ meal.name }}</strong> ({{ meal.category }})<br>
+                        Calories: {{ meal.calories }} kcal |
+                        Carbs: {{ meal.carbs }}g |
+                        Protein: {{ meal.protein }}g |
+                        Fats: {{ meal.fats }}g<br>
+                        {% if meal.image %}
+                            <img src="{{ meal.image.url }}" alt="{{ meal.name }}">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
