@@ -30,14 +30,6 @@ DEMO:
    <img width="1880" height="848" alt="page7" src="https://github.com/user-attachments/assets/10b1bc24-ef67-406a-bf61-228797c3bbbc" />
    <img width="1783" height="861" alt="page8" src="https://github.com/user-attachments/assets/d6bd0134-8e2f-4376-bc0e-6c2d00e47424" />
 
-PROJECT STRUCTURE:
-        project/
-         ├── static/
-         ├── templates/
-         ├── app_name/
-         │  ├── models.py
-         │  ├── views.py
-         ├── manage.py
 
 AUTHOR:
    👤 Jeyarubi  
